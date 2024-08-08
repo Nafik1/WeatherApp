@@ -56,6 +56,13 @@ interface DataModule {
             return database.favouriteCitiesDao()
         }
 
+        @Provides
+        fun provideContext(
+            @ApplicationContext context: Context,
+        ): Context {
+            return context
+        }
+
 
     }
 }

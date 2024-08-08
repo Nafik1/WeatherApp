@@ -1,11 +1,11 @@
 package com.example.weatherapp.data.mapper
 
-import android.icu.util.Calendar
 import com.example.weatherapp.data.network.dto.WeatherCurrentDto
 import com.example.weatherapp.data.network.dto.WeatherDto
 import com.example.weatherapp.data.network.dto.WeatherForecastDto
 import com.example.weatherapp.domain.entity.Forecast
 import com.example.weatherapp.domain.entity.Weather
+import java.util.Calendar
 import java.util.Date
 
 fun WeatherCurrentDto.toEntity(): Weather = current.toEntity()
@@ -19,7 +19,7 @@ fun WeatherDto.toEntity(): Weather = Weather(
 
 fun WeatherForecastDto.toEntity(): Forecast = Forecast(
     currentWeather = current.toEntity(),
-    upcomming = forecastDto.forecastDay.drop(1).map { dayDto ->
+    upcoming = forecastDto.forecastDay.drop(1).map { dayDto ->
         val dayWeatherDto = dayDto.dayWeatherDto
         Weather(
             tempC = dayWeatherDto.tempC,

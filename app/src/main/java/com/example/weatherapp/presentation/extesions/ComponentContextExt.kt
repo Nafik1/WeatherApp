@@ -6,7 +6,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import okhttp3.Dispatcher
 
 fun ComponentContext.componentScope() = CoroutineScope(
     Dispatchers.Main.immediate + SupervisorJob()

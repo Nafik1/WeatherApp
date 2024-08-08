@@ -27,6 +27,7 @@ interface PresentationModule {
 
     companion object {
 
+        @Singleton
         @Provides
         fun provideStoreFactory(): StoreFactory = DefaultStoreFactory()
     }

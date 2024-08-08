@@ -1,6 +1,7 @@
 package com.example.weatherapp.domain.entity
 
-import android.icu.util.Calendar
+import java.util.Calendar
+
 
 data class Weather(
     val tempC: Float,
@@ -8,4 +9,4 @@ data class Weather(
     val conditionUrl: String,
     val date: Calendar,
 
-)
+    )
