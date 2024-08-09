@@ -1,5 +1,7 @@
 package com.example.weatherapp.presentation.details
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
@@ -22,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -39,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -52,9 +56,6 @@ import com.example.weatherapp.presentation.extesions.formattedFullDate
 import com.example.weatherapp.presentation.extesions.formattedShortDayOfWeek
 import com.example.weatherapp.presentation.extesions.tempToFormattedString
 import com.example.weatherapp.presentation.ui.theme.CardGradients
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 @Composable
 fun DetailsContent(component: DetailsComponent) {
@@ -79,7 +80,7 @@ fun DetailsContent(component: DetailsComponent) {
         Box(modifier = Modifier.padding(padding)) {
             when (val forecastState = state.forecastState) {
                 DetailsStore.State.ForecastState.Error -> {
-                    Error()
+                    Error(onClickRetry = { component.onClickBack() })
                 }
 
                 DetailsStore.State.ForecastState.Initial -> {
@@ -87,7 +88,7 @@ fun DetailsContent(component: DetailsComponent) {
                 }
 
                 is DetailsStore.State.ForecastState.Loaded -> {
-                    Forecast(forecast = forecastState.forecast)
+                     Forecast(forecast = forecastState.forecast)
                 }
 
                 DetailsStore.State.ForecastState.Loading -> {
@@ -276,7 +277,30 @@ private fun Initial() {
 }
 
 @Composable
-private fun Error() {
+private fun Error(
+    onClickRetry: () -> Unit
+) {
+    val ctx = LocalContext.current
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        ctx.showToast(stringResource(R.string.error))
+        Button(
+            onClick = {
+                onClickRetry()
+            }
+        ) {
+            Text(
+                color = Color.White,
+                text = stringResource(R.string.go_back)
+            )
+        }
+    }
+}
 
+fun Context.showToast(message: String, length: Int = Toast.LENGTH_LONG) {
+    Toast.makeText(this, message, length).show()
 }
 

@@ -1,5 +1,7 @@
 package com.example.weatherapp.presentation.favourite
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,6 +40,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -121,8 +124,11 @@ private fun CityCard(
                 .clickable { onClick() }
                 .padding(24.dp)
         ) {
+            val ctx = LocalContext.current
             when (val weatherState = cityItem.weatherState) {
-                FavouriteStore.State.WeatherState.Error -> {}
+                FavouriteStore.State.WeatherState.Error -> {
+                    ctx.showToast(stringResource(R.string.error))
+                }
 
                 FavouriteStore.State.WeatherState.Initial -> {}
 
@@ -229,4 +235,8 @@ private fun SearchCard(
 private fun getGradientByIndex(index: Int): Gradient {
     val gradients = CardGradients.gradients
     return gradients[index % gradients.size]
+}
+
+fun Context.showToast(message: String, length: Int = Toast.LENGTH_LONG) {
+    Toast.makeText(this, message, length).show()
 }
